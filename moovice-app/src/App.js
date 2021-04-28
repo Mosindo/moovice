@@ -1,37 +1,84 @@
 import React from "react";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import "./App.css";
-import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
-import Home from "./components/Home"
-import Weekly from "./components/Weekly"
-import WeeklyBattle from "./components/WeeklyBattle"
-import Popular from "./components/Popular"
-import PopularBattle from "./components/PopularBattle"
-import Favorites from "./components/Favorites"
-import NavBar from './components/NavBar'
+import Favorites from "./views/Favorites";
+import Home from "./views/Home";
+import PopularView from "./views/Popular";
+import PopularBattle from "./views/PopularBattle";
+import Weekly from "./views/Weekly";
+import WeeklyBattle from "./views/WeeklyBattle";
+import { AnimatedSwitch } from "react-router-transition";
 
 class App extends React.Component {
-
-  constructor(props){
-    super(props);
-    this.state={
-      tkt:"",
-    }
-  }
-
   render() {
     return (
       <BrowserRouter>
-        <div>
-          <NavBar></NavBar>
-        </div>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route path="/weekly" component={Weekly}/>
-          <Route path="/weekly-battle" component={WeeklyBattle}/>
-          <Route path="/popular" component={Popular}/>
-          <Route path="/popular-battle" component={PopularBattle}/>
-          <Route path="/favorites" component={Favorites}/>
-        </Switch>        
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+          <div class="container-fluid">
+            <Link class="navbar-brand" to="/">
+              Moovice
+            </Link>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <Link class="nav-link active" aria-current="page" to="/">
+                    Home
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/popular/1">
+                    Popular
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/popularBattle">
+                    PopularBattle
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/weekly">
+                    Weekly
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/weeklyBattle">
+                    WeeklyBattle
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" to="/favorites">
+                    Favorites
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <AnimatedSwitch
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+          className="switch-wrapper"
+        >
+          <Route exact path="/" component={Home} />
+          <Route path="/popular" component={PopularView} />
+          <Route path="/popular/:page" component={PopularView} />
+          <Route path="/popularBattle" component={PopularBattle} />
+          <Route path="/weekly" component={Weekly} />
+          <Route path="/weeklyBattle" component={WeeklyBattle} />
+          <Route path="/favorites" component={Favorites} />
+        </AnimatedSwitch>
       </BrowserRouter>
     );
   }
